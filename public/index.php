@@ -3,8 +3,8 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
-// Habilitar exibição de erros para debug
-error_reporting(E_ALL);
+// Configuração de erro para PHP 8.4 - suprimir avisos de depreciação Laravel
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
