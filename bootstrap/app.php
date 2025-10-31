@@ -1,43 +1,27 @@
 <?php
 
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+
 /*
 |--------------------------------------------------------------------------
-| Create The Application
+| Create The Application (Laravel 11)
 |--------------------------------------------------------------------------
 |
-| Laravel 10 compatível com PHP 8.4
+| Laravel 11 bootstrap - totalmente compatível com PHP 8.4
 |
 */
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-*/
-
-$app->singleton(
-    'Illuminate\Contracts\Http\Kernel',
-    'App\Http\Kernel'
-);
-
-$app->singleton(
-    'Illuminate\Contracts\Console\Kernel', 
-    'App\Console\Kernel'
-);
-
-$app->singleton(
-    'Illuminate\Contracts\Debug\ExceptionHandler',
-    'App\Exceptions\Handler'
-);
-
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-*/
-
-return $app;
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        // Middleware configuration
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        // Exception handling
+    })->create();
