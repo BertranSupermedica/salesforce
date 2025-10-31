@@ -141,10 +141,11 @@ if (extension_loaded('oci8')) {
 echo "<hr>
       <h3>🔗 Links da Aplicação:</h3>
       <ul>
-        <li><a href='./'>🏠 Página Inicial</a></li>
-        <li><a href='./base-anvisa'>💊 BASE ANVISA</a></li>
-        <li><a href='./oracle-test'>🔍 Teste Oracle</a></li>
-        <li><a href='./api/system-info' target='_blank'>🔧 API System Info</a></li>
+        <li><a href='index.php'>🏠 Página Welcome</a></li>
+        <li><a href='public/'>🚀 Aplicação Laravel</a></li>
+        <li><a href='public/base-anvisa'>💊 BASE ANVISA</a></li>
+        <li><a href='public/oracle-test'>🔍 Teste Oracle</a></li>
+        <li><a href='status.php' target='_blank'>� Status JSON</a></li>
       </ul>";
 
 // Resumo
