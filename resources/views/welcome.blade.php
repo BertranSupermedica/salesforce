@@ -88,20 +88,18 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-4 col-md-6">
                     <div class="card feature-card">
                         <div class="card-body text-center p-4">
                             <div class="mb-3">
-                                <i class="fas fa-chart-bar fa-3x text-success"></i>
+                                <i class="fas fa-pills fa-3x text-success"></i>
                             </div>
-                            <h5 class="card-title">Análise de Mercado</h5>
-                            <p class="card-text">Ferramentas avançadas para análise de dados com Laravel framework</p>
-                            <button class="btn btn-success" disabled>Em Breve</button>
+                            <h5 class="card-title">BASE ANVISA</h5>
+                            <p class="card-text">Consulta e análise da base de dados de produtos da ANVISA</p>
+                            <a href="/base-anvisa" class="btn btn-success">Acessar BASE</a>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
+                </div>                <div class="col-lg-4 col-md-6">
                     <div class="card feature-card">
                         <div class="card-body text-center p-4">
                             <div class="mb-3">
