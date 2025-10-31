@@ -3,6 +3,11 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+// Habilitar exibição de erros para debug
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -44,12 +49,51 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+// Tentar carregar Laravel com tratamento de erros melhorado
+try {
+    // Verificar se o bootstrap existe
+    if (!file_exists(__DIR__.'/../bootstrap/app.php')) {
+        throw new Exception("Laravel bootstrap/app.php não encontrado. Execute 'composer install' e configure o projeto Laravel.");
+    }
+    
+    $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$kernel = $app->make(Kernel::class);
+    // Verificar se as classes do Laravel estão disponíveis
+    if (!class_exists('Illuminate\Contracts\Http\Kernel')) {
+        throw new Exception("Classes do Laravel não carregadas. Verifique se 'composer install' foi executado.");
+    }
+    
+    $kernel = $app->make('Illuminate\Contracts\Http\Kernel');
 
-$response = $kernel->handle(
-    $request = Request::capture()
-)->send();
+    $response = $kernel->handle(
+        $request = \Illuminate\Http\Request::capture()
+    );
 
-$kernel->terminate($request, $response);
+    $response->send();
+    $kernel->terminate($request, $response);
+    
+} catch (Error $e) {
+    // Erro fatal do PHP 8.4
+    echo "<h1>Erro PHP 8.4</h1>";
+    echo "<p><strong>Mensagem:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<p><strong>Arquivo:</strong> " . htmlspecialchars($e->getFile()) . "</p>";
+    echo "<p><strong>Linha:</strong> " . $e->getLine() . "</p>";
+    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+    
+} catch (Exception $e) {
+    // Exceção do Laravel/PHP
+    echo "<h1>Erro Laravel</h1>";
+    echo "<p><strong>Mensagem:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<p><strong>Arquivo:</strong> " . htmlspecialchars($e->getFile()) . "</p>";
+    echo "<p><strong>Linha:</strong> " . $e->getLine() . "</p>";
+    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+    
+} catch (Throwable $e) {
+    // Qualquer outro erro (PHP 8.4)
+    echo "<h1>Erro Geral</h1>";
+    echo "<p><strong>Tipo:</strong> " . get_class($e) . "</p>";
+    echo "<p><strong>Mensagem:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<p><strong>Arquivo:</strong> " . htmlspecialchars($e->getFile()) . "</p>";
+    echo "<p><strong>Linha:</strong> " . $e->getLine() . "</p>";
+    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+}
